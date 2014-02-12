@@ -130,7 +130,7 @@ var _ = { };
   _.invoke = function(collection, functionOrKey, args) {
     var results = [];
     for (var i = 0; i < collection.length; i++){
-      results.push(functionOrKey.call(collection[i], args));
+      results.push(functionOrKey.apply(collection[i], args));
     }
     return results;
   };
@@ -149,6 +149,10 @@ var _ = { };
   //     return total + number;
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
+    for (var i = 0; i < collection.length; i++){
+      accumulator = iterator(accumulator, collection[i]);
+    }
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
