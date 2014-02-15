@@ -182,6 +182,13 @@ var _ = { };
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    // This is the easy way...
+    if (typeof(iterator) !== 'function'){
+      var iterator = _.identity;
+    }
+    return _.reduce(collection, function(previousValue,item){
+      return (iterator(item) || previousValue) ? true : false;
+    }, false);
     // TIP: There's a very clever way to re-use every() here.
   };
 
