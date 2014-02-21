@@ -398,12 +398,22 @@ var _ = { };
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
     var result = [];
-    for (var i=0; i<arguments.length; i++) {
-      for (var j=0; j<arguments[i].length; j++) {
-        for (var k=i+1; k<arguments.length; k++) {
-          if (arguments[k].indexOf(arguments[i][j]) !== -1) {result.push(arguments[i][j])};
-        }
-      }
+
+    // This is the "easy" way to do it...
+
+    // for (var i=0; i<arguments.length; i++) {
+    //   for (var j=0; j<arguments[i].length; j++) {
+    //     for (var k=i+1; k<arguments.length; k++) {
+    //       if (arguments[k].indexOf(arguments[i][j]) !== -1) {result.push(arguments[i][j])};
+    //     }
+    //   }
+    // }
+
+    // This method takes advantage of the 'flatten' function above...
+
+    var test = _.flatten.apply(this, arguments);
+    for (var x=0; x<test.length; x++) {
+      if (result.indexOf(test[x]) == -1 && test.slice(x+1).indexOf(test[x]) !== -1) { result.push(test[x]);}
     }
     return result;
   };
