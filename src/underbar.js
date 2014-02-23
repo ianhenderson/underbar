@@ -455,6 +455,16 @@ var _ = { };
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var Ready2Go = true;
+    var result;
+    return function(){
+      if (Ready2Go) {
+        Ready2Go = false;
+        result = func.apply(this, arguments);
+        setTimeout(function(){ Ready2Go = true; }, wait);
+      }
+      return result;
+    };
   };
 
 }).call(this);
