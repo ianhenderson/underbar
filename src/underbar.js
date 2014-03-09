@@ -130,7 +130,12 @@ var _ = { };
   _.invoke = function(collection, functionOrKey, args) {
     var results = [];
     for (var i = 0; i < collection.length; i++){
-      results.push(functionOrKey.apply(collection[i], args));
+      if (typeof(functionOrKey) == 'function') {
+        results.push(functionOrKey.apply(collection[i], args));
+      }
+      else {
+        results.push(String.prototype[functionOrKey].apply(collection[i], args));
+      }
     }
     return results;
   };
