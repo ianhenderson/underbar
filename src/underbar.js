@@ -129,14 +129,14 @@ var _ = { };
   // Note: you will nead to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
     var results = [];
-    for (var i = 0; i < collection.length; i++){
-      if (typeof(functionOrKey) == 'function') {
-        results.push(functionOrKey.apply(collection[i], args));
+    _.each(collection, function(item){
+      if (typeof(functionOrKey) == "function"){
+        results.push(functionOrKey.apply(item, args));
       }
       else {
-        results.push(String.prototype[functionOrKey].apply(collection[i], args));
+        results.push(String.prototype[functionOrKey].apply(item, args));
       }
-    }
+    });
     return results;
   };
 
