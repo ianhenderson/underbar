@@ -134,7 +134,7 @@ var _ = { };
         results.push(functionOrKey.apply(item, args));
       }
       else {
-        results.push(String.prototype[functionOrKey].apply(item, args));
+        results.push(item[functionOrKey].apply(item, args));
       }
     });
     return results;
