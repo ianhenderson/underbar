@@ -86,11 +86,12 @@ var _ = { };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
-    var result = [];
-    _.each(array, function(item, index) {
-      if (_.indexOf(result, item) == -1) {result.push(item);}
+    // Used 'breadcrumbing' method here.
+    var results = {};
+    _.each(array, function(value){
+      results[value] = true;
     });
-    return result;
+    return Object.keys(results);
   };
 
 
