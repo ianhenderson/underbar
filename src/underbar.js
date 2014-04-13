@@ -346,6 +346,7 @@ var _ = { };
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function(arr1, arr2) {
+    // First, we find the length of the longest array:
     var args = Array.prototype.slice.call(arguments);       // args === [['a','b','c','d'], [1,2,3]]
     var length = _.map(args, function(array){               // length === [4,3]
       return array.length; 
@@ -353,7 +354,7 @@ var _ = { };
     length = _.reduce(length, function(prev, current){      // length === 4
       return current > prev ? current : prev; 
     }, true)
-
+    // Now, we blend the arrays together, automatically filling in "undefined" for the blank spots:
     var result = [];
     _.each(args, function(array){
       for (var i = 0; i < length; i++){
