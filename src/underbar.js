@@ -203,11 +203,12 @@ var _ = { };
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
-    for (var i=0; i < arguments.length; i++){
-      for (var key in arguments[i]){
-        obj[key] = arguments[i][key];
-      }
-    }
+    var args = Array.prototype.slice.call(arguments, 1);  // args = [ obj1, obj2, ... ]
+    _.each(args, function(value, keys){                   // loop over each obj in args
+      _.each(value, function(v,k){                        // loop over each property in obj1, obj2, ...
+        obj[k] = v;
+      });
+    });
     return obj;
   };
 
