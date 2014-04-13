@@ -311,7 +311,7 @@ var _ = { };
       var index = Math.floor(Math.random() * (arr.length - i++));
       arr.push(arr.splice(index,1)[0]);
     }
-    
+
     return arr;
   };
 
@@ -345,20 +345,23 @@ var _ = { };
   //
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
-  _.zip = function() {
-    var max = arguments[0].length;
-    for (var i=1; i<arguments.length; i++) {
-      max = arguments[i].length > max ? arguments[i].length : max;
-    }
+  _.zip = function(arr1, arr2) {
+    var args = Array.prototype.slice.call(arguments);       // args === [['a','b','c','d'], [1,2,3]]
+    var length = _.map(args, function(array){               // length === [4,3]
+      return array.length; 
+    });
+    length = _.reduce(length, function(prev, current){      // length === 4
+      return current > prev ? current : prev; 
+    }, true)
 
     var result = [];
-    for (var k=0; k<max; k++) {
-      result[k] = [];
-      for (var j=0; j<arguments.length; j++) {
-        result[k].push(arguments[j][k]);
+    _.each(args, function(array){
+      for (var i = 0; i < length; i++){
+        if (!Array.isArray(result[i])) { result[i] = []; }
+        result[i].push(array[i]);
       }
-    }
-
+      
+    });
     return result;
   };
 
