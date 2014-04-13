@@ -394,12 +394,11 @@ var _ = { };
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
-    var result = [];
-    var others = _.flatten(arguments);
-    for (var i=0; i<array.length; i++) {
-      if (others.slice(array.length).indexOf(array[i]) == -1) { result.push(array[i]); }
-    }
-    return result
+    var others = Array.prototype.slice.call(arguments, 1);
+    others = _.flatten(others);
+    return _.filter(array, function(value){
+      return _.indexOf(others, value) === -1;
+    });
   };
 
 
