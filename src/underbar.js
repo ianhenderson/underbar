@@ -66,15 +66,15 @@ var _ = { };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
-    var result = [];
-
-    _.each(collection, function(item, index) {
-      if (test(item)) {
-        result.push(item);
+    var results = [];
+    _.each(collection, function(item, index, collection) {
+      if (test(item, index, collection)) {
+        if (Array.isArray(collection)) {results.push(item);}  // For arrays, push values
+        else {results.push(index);}                           // For objects, push keys
       }
     });
 
-    return result;
+    return results;
   };
 
   // Return all elements of an array that don't pass a truth test.
@@ -382,25 +382,13 @@ var _ = { };
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
-    var result = [];
-
-    // This is the "easy" way to do it...
-
-    // for (var i=0; i<arguments.length; i++) {
-    //   for (var j=0; j<arguments[i].length; j++) {
-    //     for (var k=i+1; k<arguments.length; k++) {
-    //       if (arguments[k].indexOf(arguments[i][j]) !== -1) {result.push(arguments[i][j])};
-    //     }
-    //   }
-    // }
-
-    // This method takes advantage of the 'flatten' function above...
-
-    var test = _.flatten.apply(this, arguments);
-    for (var x=0; x<test.length; x++) {
-      if (result.indexOf(test[x]) == -1 && test.slice(x+1).indexOf(test[x]) !== -1) { result.push(test[x]);}
-    }
-    return result;
+    // First, make one big array with all the values in the arguments:
+    var flatArgs = _.flatten.apply(this, arguments);
+    // Create a hash that counts how often each item appears in flatArgs:
+    var tallyHash = {};
+    _.each(flatArgs, function(value) {tallyHash[value] = tallyHash[value] + 1 || 0;});
+    // Filter keys with frequency > 0. (Note: I modified filter to work with objects for this to work.)
+    return _.filter(tallyHash, function(value,key) {return value > 0;})
   };
 
   // Take the difference between one array and a number of other arrays.
