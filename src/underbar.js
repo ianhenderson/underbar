@@ -311,6 +311,7 @@ var _ = { };
       var index = Math.floor(Math.random() * (arr.length - i++));
       arr.push(arr.splice(index,1)[0]);
     }
+    
     return arr;
   };
 
@@ -326,24 +327,17 @@ var _ = { };
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
-    // var collection = collection.slice();
-
-    if (typeof(iterator) == 'string') {
-      return collection.sort(function(a,b){
-        if (a[iterator] == b[iterator]) {
-          return 0;
-        }
-        else {
-          return a[iterator] < b[iterator] ? -1 : 1; 
-        }
-      });
-    }
-
-    else{
-      return collection.sort(function(a,b){
+    return collection.sort(function(a,b){
+      if (typeof iterator === 'function'){
         return iterator(a) - iterator(b);
-    });  
-    }
+      }
+      if (iterator === 'length'){
+        return a.length - b.length;
+      }
+      else {
+        return a - b;
+      }
+    });
   };
 
   // Zip together two or more arrays with elements of the same index
