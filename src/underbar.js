@@ -88,10 +88,15 @@ var _ = { };
   _.uniq = function(array) {
     // Used 'breadcrumbing' method here.
     var results = {};
-    _.each(array, function(value){
-      results[value] = true;
+    // _.each(array, function(value){
+    //   results[value] = true;
+    // });
+    // return Object.keys(results);
+    return _.filter(array, function(value){
+      var isPresent = results[value]; // is value in results?
+      results[value] = true;          // record value in results
+      return !isPresent;              // if NOT present (isPresent = false), return true 
     });
-    return Object.keys(results);
   };
 
 
